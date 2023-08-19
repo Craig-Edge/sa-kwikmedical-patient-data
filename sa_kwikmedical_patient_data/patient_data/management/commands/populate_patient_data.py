@@ -26,40 +26,31 @@ class Command(BaseCommand):
         ]
 
         surnames = [
-        "Running", "Jumping", "Swimming", "Cooking", "Driving", "Singing", "Dancing", "Painting",
-        "Reading", "Writing", "Thinking", "Walking", "Sleeping", "Dreaming", "Flying", "Climbing",
-        "Jogging", "Playing", "Eating", "Working", "Studying", "Teaching", "Learning", "Creating",
-        "Building", "Baking", "Hiking", "Exploring", "Rowing", "Sailing", "Traveling", "Cycling",
-        "Knitting", "Designing", "Sculpting", "Rowing", "Sailing", "Cycling", "Traveling", "Hiking",
-        "Drawing", "Crafting", "Cooking", "Running", "Writing", "Singing", "Painting", "Swimming",
-        "Thinking", "Dancing", "Teaching", "Learning", "Jumping", "Climbing", "Jogging", "Sleeping",
-        "Dreaming", "Flying", "Driving", "Playing", "Baking", "Rowing", "Sailing", "Traveling",
+            "Enveloping", "Transmogrifying", "Galvanizing", "Peregrinating", "Exhilarating",
+            "Percolating", "Resplendent", "Emanating", "Serendipitous", "Zephyrizing",
+            "Quixotically", "Mellifluously", "Incandescent", "Effervescent", "Euphoric",
+            "Synchronizing", "Ardently", "Cacophonous", "Nebulizing", "Vivaciously",
+            "Bucolic", "Ebullient", "Halcyon", "Eclipsing", "Bewildering",
+            "Panoramic", "Effulgent", "Cerulean", "Luminescent", "Elysian"
         ]
 
-        # Start date for random birthdates
+        num_loops = 50  # Number of loops to create patients
+
         start_date = date(1960, 1, 1)
+        nhs_number_counter = 100000
 
-        # Loop to create patients
-        for condition in CONDITION_CHOICES:
-            injury_index = CONDITION_CHOICES.index(condition)
-            for i in range(8):
-                first_name = random.choice(given_names)
-                last_name = random.choice(surnames)
-                dob = start_date + timedelta(days=random.randint(0, 15000))  # Approximately 41 years
+        for i in range(num_loops):
+            first_name = random.choice(given_names)
+            last_name = random.choice(surnames)
+            dob = start_date + timedelta(days=random.randint(0, 15000))
+            nhs_number = f"NHS{nhs_number_counter}"
+            nhs_number_counter += 1
 
-                # Assign the next injury choice sequentially
-                injury_choice = INJURY_CHOICES[injury_index]
+            Patient.objects.create(
+                first_name=first_name,
+                last_name=last_name,
+                dob=dob,
+                nhs_number=nhs_number
+            )
 
-                # Create the patient record
-                Patient.objects.create(
-                    first_name=first_name,
-                    last_name=last_name,
-                    dob=dob,
-                    condition_type=condition,
-                    injury_type=injury_choice
-                )
-
-                # Move to the next injury type
-                injury_index = (injury_index + 1) % len(INJURY_CHOICES)
-                
         self.stdout.write(self.style.SUCCESS('Successfully populated the patient database with sample data'))
