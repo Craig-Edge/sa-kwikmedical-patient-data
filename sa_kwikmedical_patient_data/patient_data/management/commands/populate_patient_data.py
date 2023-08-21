@@ -6,7 +6,7 @@ from patient_data.models import Patient
 class Command(BaseCommand):
     help = 'Populate the patient database with sample data'
 
-    def handle(self, *args, **options):        # Delete existing data (optional)
+    def handle(self, *args, **options):       
         Patient.objects.all().delete()
         
         
@@ -34,8 +34,7 @@ class Command(BaseCommand):
             "Panoramic", "Effulgent", "Cerulean", "Luminescent", "Elysian"
         ]
 
-        num_loops = 50  # Number of loops to create patients
-
+        num_loops = 50  
         start_date = date(1960, 1, 1)
         nhs_number_counter = 100000
 

@@ -17,17 +17,14 @@ class PatientViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = Patient.objects.all()
 
-        # Filter by first_name query parameter
         first_name = self.request.query_params.get('first_name', None)
         if first_name is not None:
             queryset = queryset.filter(first_name__icontains=first_name)
 
-        # Filter by last_name query parameter
         last_name = self.request.query_params.get('last_name', None)
         if last_name is not None:
             queryset = queryset.filter(last_name__icontains=last_name)
             
-        # Filter by last_name query parameter
         nhs_number = self.request.query_params.get('nhs_number', None)
         if nhs_number is not None:
             queryset = queryset.filter(nhs_number__icontains=nhs_number)
@@ -39,7 +36,7 @@ class PatientViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)           
 
-    # Custom GET method to retrieve a single patient
+  
     def retrieve(self, request, pk=None):
         queryset = self.get_queryset()
         patient = get_object_or_404(queryset, pk=pk)

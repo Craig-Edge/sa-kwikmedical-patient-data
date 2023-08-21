@@ -20,7 +20,7 @@ class PatientCallOut(models.Model):
         ('canceled', 'Canceled'),
     ]
       
-    nhs_number = models.CharField(max_length=50, null=True)  # Use NHS number directly
+    nhs_number = models.CharField(max_length=50, null=True) 
     datetime = models.DateTimeField(default=timezone.now)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='pending')
     actions_taken = models.TextField()
